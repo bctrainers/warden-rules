@@ -1,0 +1,23 @@
+# * This will assign users a role when they join your server where this rule is active. 
+# * It is set to run every five minutes, checking if there were any new joiners within 
+#   the past hour in the event the bot went offline for whatever reason.
+# * New joiners to the server are instantly added to the specified user group.
+# * Change `1074367832940351538` to the role ID(s) that you want to add users to.
+# * If you use something such as  the `stickymem` cog, you may want to modify the 
+#   `user-has-any-role-in` ID in there so that any user existing in that role somehow
+#   will be skipped over with this rule.
+
+rank: 3
+name: new-user-join-autorole
+event: [periodic, on-user-join]
+run-every: 5 minutes
+priority: 10
+if:
+  - user-joined-less-than: 1 hours
+  - is-staff: false
+  - is-helper: false
+  - if-not:
+      - user-has-any-role-in: [1117400435934892064]
+do:
+  - add-roles-to-user: [1074367832940351538]
+  - send-mod-log: "Autorole: $user ($user_id) has been auto-assigned role: New Member"
